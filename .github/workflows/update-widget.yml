@@ -1,0 +1,27 @@
+name: Update Widget
+
+on:
+  schedule:
+    - cron: "7,14,21,28,35,42,49,56 * * * *"
+  workflow_dispatch: {}
+
+jobs:
+  update-widget:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install axios dotenv typescript ts-node
+
+      - name: Run widget updater
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+          DISCORD_USER_ID: ${{ secrets.DISCORD_USER_ID }}
+          COUNTER_RAW_URL: ${{ secrets.COUNTER_RAW_URL }}
+        run: npx ts-node index.ts
