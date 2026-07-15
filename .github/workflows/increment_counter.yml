@@ -1,9 +1,8 @@
 name: Increment Counter
 
 on:
-  schedule:
-    - cron: "7,14,21,28,35,42,49,56 * * * *"   # every 7 minutes, skipping :00 so the hourly wraparound gap is 11min (long) instead of 4min (risky for the rate limit)
-  workflow_dispatch: {}     # lets you also trigger it manually from the Actions tab
+     repository_dispatch:
+       types: [run-widget-update]
 
 jobs:
   increment:
