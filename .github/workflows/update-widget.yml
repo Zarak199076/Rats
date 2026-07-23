@@ -1,8 +1,7 @@
 name: Update Widget
 
 on:
-     repository_dispatch:
-       types: [run-widget-update]
+  workflow_dispatch: {}
 
 jobs:
   update-widget:
@@ -15,7 +14,7 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm install axios dotenv typescript ts-node
+        run: npm install
 
       - name: Run widget updater
         env:
