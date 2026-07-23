@@ -1,8 +1,7 @@
 name: Increment Counter
 
 on:
-     repository_dispatch:
-       types: [run-widget-update]
+  workflow_dispatch: {}
 
 jobs:
   increment:
@@ -16,17 +15,15 @@ jobs:
           if [ ! -f "$FILE" ]; then
             echo '{"total": 0}' > "$FILE"
           fi
-
           CURRENT=$(node -p "require('./$FILE').total")
           RAND=$(( (RANDOM % 10) + 1 ))
           NEW_TOTAL=$((CURRENT + RAND))
-
-          echo "{\"total\": $NEW_TOTAL, \"lastAdded\": $RAND, \"updatedAt\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"}" > "$FILE"
+          echo "{\"total\": $NEW_TOTAL}" > "$FILE"
 
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add counter.json
-          git commit -m "Increment counter" || echo "No changes to commit"
+          git commit -m "Increment counter" || echo "No changes"
           git push
